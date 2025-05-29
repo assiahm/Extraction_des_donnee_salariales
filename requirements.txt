@@ -1,0 +1,11 @@
+streamlit
+openai
+python-dotenv
+pytesseract
+pillow
+PyMuPDF
+pandas
+matplotlib
+azure-ai-formrecognizer
+spacy
+azure-storage-blob
