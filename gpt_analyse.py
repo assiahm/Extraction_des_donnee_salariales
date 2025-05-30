@@ -14,23 +14,35 @@ client = openai.AzureOpenAI(
 deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT")
 
 def analyse_document_gpt(fiche_paie, releve_bancaire):
-    system_message = "Tu es un expert bancaire. Ton rôle est de vérifier la cohérence entre une fiche de paie et un relevé bancaire."
+    system_message = (
+        "Tu es un conseiller en crédit qui analyse les revenus d’un individu à partir de deux documents financiers : "
+        "- Une fiche de paie "
+        "- Un relevé bancaire "
+        "🎯 Ton objectif est de : "
+        "- Évaluer la cohérence des revenus déclarés (salaire net à payer vs montant réellement reçu) "
+        "- Vérifier si la personne a des revenus stables et vérifiables "
+        "- Aider à estimer sa capacité à obtenir un crédit "
+        "✅ Détail de ce que tu dois faire : "
+        "- Compare les salaires nets : 'salaire_net' (fiche de paie) vs 'montant_recu' (relevé bancaire) "
+        "- Vérifie que les périodes/mois concordent "
+        "- Donne un avis sur la fiabilité des revenus "
+        "- Fournis une conclusion claire : "
+        "   - 'revenus cohérents et stables' "
+        "   - ou 'revenus incohérents ou douteux' "
+        "   - ou 'informations insuffisantes pour conclure'"
+    )
 
     user_prompt = f"""
-Voici les données extraites d'une fiche de paie :
+Voici les données extraites automatiquement :
+
+Fiche de paie :
 {json.dumps(fiche_paie, indent=2)}
 
-Et voici les données extraites d'un relevé bancaire :
+Relevé bancaire :
 {json.dumps(releve_bancaire, indent=2)}
 
-Analyse :
-1. Est-ce que le nom/prénom du salarié correspond au titulaire du compte ?
-2. Le montant 'net à payer' est-il présent dans les virements ?
-3. La période de paie est-elle cohérente avec la date du virement ?
-4. Le nom de l’entreprise est-il mentionné comme émetteur du virement ?
-
-Donne une analyse détaillée, puis un verdict clair : COHÉRENT ou INCOHÉRENT.
-    """
+Merci de fournir une analyse détaillée et une conclusion claire.
+"""
 
     response = client.chat.completions.create(
         model=deployment_name,
