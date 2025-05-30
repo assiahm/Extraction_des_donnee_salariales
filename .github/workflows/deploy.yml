@@ -26,6 +26,6 @@ jobs:
       - name: Déploiement sur Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.assiaappservice }}
+          app-name: ${{ secrets.ASSIAAPPSERVICE }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9ACAFC67E80E487BBB138D4165EF91F5 }}
           package: .
