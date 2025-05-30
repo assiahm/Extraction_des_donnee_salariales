@@ -1,0 +1,14 @@
+# Environnement virtuel
+.venv/
+env/
+__pycache__/
+
+# Fichiers de configuration perso
+.env
+*.PublishSettings
+
+# Fichiers temporaires
+*.log
+*.tmp
+*.sqlite
+*.png
